@@ -37,6 +37,9 @@ namespace CSharpGithubPost
             this.btnSelect = new System.Windows.Forms.Button();
             this.btnPost = new System.Windows.Forms.Button();
             this.lblShowInfo = new System.Windows.Forms.Label();
+            this.ckbOverwrite = new System.Windows.Forms.CheckBox();
+            this.btnSaveToFolder = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.grpBoxFilePath.SuspendLayout();
             this.grpBoxClickButton.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +81,9 @@ namespace CSharpGithubPost
             // 
             // grpBoxClickButton
             // 
+            this.grpBoxClickButton.Controls.Add(this.button2);
+            this.grpBoxClickButton.Controls.Add(this.btnSaveToFolder);
+            this.grpBoxClickButton.Controls.Add(this.ckbOverwrite);
             this.grpBoxClickButton.Controls.Add(this.btnDelete);
             this.grpBoxClickButton.Controls.Add(this.btnSelect);
             this.grpBoxClickButton.Controls.Add(this.btnPost);
@@ -85,14 +91,14 @@ namespace CSharpGithubPost
             this.grpBoxClickButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.grpBoxClickButton.Name = "grpBoxClickButton";
             this.grpBoxClickButton.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpBoxClickButton.Size = new System.Drawing.Size(142, 165);
+            this.grpBoxClickButton.Size = new System.Drawing.Size(142, 330);
             this.grpBoxClickButton.TabIndex = 0;
             this.grpBoxClickButton.TabStop = false;
             this.grpBoxClickButton.Text = "Click Button";
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(9, 118);
+            this.btnDelete.Location = new System.Drawing.Point(7, 265);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(124, 35);
@@ -103,7 +109,7 @@ namespace CSharpGithubPost
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(9, 29);
+            this.btnSelect.Location = new System.Drawing.Point(9, 74);
             this.btnSelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(124, 35);
@@ -114,7 +120,7 @@ namespace CSharpGithubPost
             // 
             // btnPost
             // 
-            this.btnPost.Location = new System.Drawing.Point(9, 74);
+            this.btnPost.Location = new System.Drawing.Point(8, 220);
             this.btnPost.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(124, 35);
@@ -127,12 +133,43 @@ namespace CSharpGithubPost
             // 
             this.lblShowInfo.AutoSize = true;
             this.lblShowInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShowInfo.Location = new System.Drawing.Point(1044, 205);
+            this.lblShowInfo.Location = new System.Drawing.Point(1045, 439);
             this.lblShowInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblShowInfo.Name = "lblShowInfo";
             this.lblShowInfo.Size = new System.Drawing.Size(32, 18);
             this.lblShowInfo.TabIndex = 1;
             this.lblShowInfo.Text = "Info";
+            // 
+            // ckbOverwrite
+            // 
+            this.ckbOverwrite.AutoSize = true;
+            this.ckbOverwrite.Location = new System.Drawing.Point(19, 188);
+            this.ckbOverwrite.Name = "ckbOverwrite";
+            this.ckbOverwrite.Size = new System.Drawing.Size(94, 24);
+            this.ckbOverwrite.TabIndex = 1;
+            this.ckbOverwrite.Text = "Overwrite";
+            this.ckbOverwrite.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveToFolder
+            // 
+            this.btnSaveToFolder.Location = new System.Drawing.Point(9, 29);
+            this.btnSaveToFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSaveToFolder.Name = "btnSaveToFolder";
+            this.btnSaveToFolder.Size = new System.Drawing.Size(124, 35);
+            this.btnSaveToFolder.TabIndex = 2;
+            this.btnSaveToFolder.Text = "Save To";
+            this.btnSaveToFolder.UseVisualStyleBackColor = true;
+            this.btnSaveToFolder.Click += new System.EventHandler(this.btnSaveToFolder_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(9, 119);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(124, 35);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Select";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // GithubPostForm
             // 
@@ -148,6 +185,7 @@ namespace CSharpGithubPost
             this.Text = "Github Post";
             this.grpBoxFilePath.ResumeLayout(false);
             this.grpBoxClickButton.ResumeLayout(false);
+            this.grpBoxClickButton.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,6 +201,9 @@ namespace CSharpGithubPost
         private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.Button btnPost;
         private System.Windows.Forms.Label lblShowInfo;
+        private System.Windows.Forms.CheckBox ckbOverwrite;
+        private System.Windows.Forms.Button btnSaveToFolder;
+        private System.Windows.Forms.Button button2;
     }
 }
 

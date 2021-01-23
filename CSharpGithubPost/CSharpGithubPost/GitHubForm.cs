@@ -19,6 +19,8 @@ namespace CSharpGithubPost
             lblShowInfo.Text = string.Empty;
         }
 
+        string destinationDirectory = string.Empty;
+
         Form messbox;
         public void MessageBoxShow(string content)
         {
@@ -34,7 +36,7 @@ namespace CSharpGithubPost
             okButton.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             okButton.Location = new Point(340, 150);
             okButton.Text = "OK";
-            okButton.Click += new EventHandler(button1_Click);
+            okButton.Click += new EventHandler(OKButton_Click);
 
             messbox = new Form();
             messbox.MaximizeBox = false;
@@ -51,10 +53,21 @@ namespace CSharpGithubPost
             messbox.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void OKButton_Click(object sender, EventArgs e)
         {
             messbox.Close();
             messbox.Dispose();
+        }
+
+        private void btnSaveToFolder_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                lblShowInfo.Text = "Selecting...";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Select your folder";
+            }
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
@@ -63,9 +76,9 @@ namespace CSharpGithubPost
             //string filePath = string.Empty;
             //string fileNameOnly = string.Empty;
             
-
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
+                lblShowInfo.Text = "Selecting...";
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 openFileDialog.Filter = "All files (*.*)|*.*";
                 //"txt files (*.txt)|*.txt|Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
@@ -85,6 +98,7 @@ namespace CSharpGithubPost
                                 //Get the path of specified file
                                 rtxbFilePath.Text += file + "\r\n";
                                 rtxbFileName.Text += file.Split('\\').Last().Split('.').First() + "\r\n";
+                                lblShowInfo.Text = "Selected!";
 
                                 //Read the contents of the file into a stream
                                 //var fileStream = openFileDialog.OpenFile();
@@ -96,6 +110,7 @@ namespace CSharpGithubPost
                             }
                             else
                             {
+                                lblShowInfo.Text = "Selected!";
                                 MessageBoxShow(string.Format("File \"{0}\" is added!", file.Split('\\').Last().Split('.').First()));
                             }
 
@@ -125,6 +140,7 @@ namespace CSharpGithubPost
         {
             using (System.Diagnostics.Process process = new System.Diagnostics.Process())
             {
+                lblShowInfo.Text = "Posting...";
                 //System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
@@ -139,12 +155,24 @@ namespace CSharpGithubPost
 
                 foreach (string pathFile in rtxbFilePath.Lines)
                 {
-                    //spcace or not "\\?\"
-                    process.StandardInput.WriteLine("copy \\\\?\\" + pathFile + " " + Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory).ToString() + "\\Test");
+                    if (ckbOverwrite.Enabled)
+                    {
+                        //spcace or not "\\?\"
+                        process.StandardInput.WriteLine("xCOPY " + "\"" + pathFile + "\"" + " " +
+                                    Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory).ToString() + "\\Test" + " /Y");
+                    }
+                    else
+                    {
+                        if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory).ToString() + "\\Test\\" + pathFile.Split('\\').Last()))
+                        {
+
+                        }
+                    }
                 }
 
                 process.StandardInput.WriteLine("exit");
                 process.WaitForExit();
+                lblShowInfo.Text = "Posted";
             }
         }
 
@@ -153,5 +181,7 @@ namespace CSharpGithubPost
             rtxbFilePath.Text = string.Empty;
             rtxbFileName.Text = string.Empty;
         }
+
+        
     }
 }
