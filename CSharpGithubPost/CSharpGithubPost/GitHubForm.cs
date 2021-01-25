@@ -61,25 +61,29 @@ namespace CSharpGithubPost
 
         private void btnSaveToFolder_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (FolderBrowserDialog openFolderDialog = new FolderBrowserDialog())
             {
                 lblShowInfo.Text = "Selecting...";
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                openFileDialog.Multiselect = false;
-                openFileDialog.Title = "Select your folder";
+                if (openFolderDialog.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(openFolderDialog.SelectedPath))
+                {
+                    destinationDirectory = openFolderDialog.SelectedPath;
+                    lblDestinationDirectory.Text = "Github saved path: " + destinationDirectory;
+                    lblShowInfo.Text = "Path is saved!";
+                }
+                else
+                {
+                    lblDestinationDirectory.Text = "Click Save To Button and Choose Destination Directory!";
+                    lblShowInfo.Text = "Path is not saved!";
+                }
             }
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            //string fileContent = string.Empty;
-            //string filePath = string.Empty;
-            //string fileNameOnly = string.Empty;
-            
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 lblShowInfo.Text = "Selecting...";
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                //openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 openFileDialog.Filter = "All files (*.*)|*.*";
                 //"txt files (*.txt)|*.txt|Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
                 //openFileDialog.FilterIndex = 1;
@@ -138,42 +142,53 @@ namespace CSharpGithubPost
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            using (System.Diagnostics.Process process = new System.Diagnostics.Process())
+            if (!string.IsNullOrEmpty(destinationDirectory))
             {
-                lblShowInfo.Text = "Posting...";
-                //System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.RedirectStandardInput = true;
-                startInfo.RedirectStandardOutput = true;
-                startInfo.UseShellExecute = false;
-                startInfo.CreateNoWindow = true;
-                process.StartInfo = startInfo;
-                //startInfo.Arguments = "/C copy " + pathFile + " ";
-                process.Start();
-
-                foreach (string pathFile in rtxbFilePath.Lines)
+                using (System.Diagnostics.Process process = new System.Diagnostics.Process())
                 {
-                    if (ckbOverwrite.Enabled)
-                    {
-                        //spcace or not "\\?\"
-                        process.StandardInput.WriteLine("xCOPY " + "\"" + pathFile + "\"" + " " +
-                                    Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory).ToString() + "\\Test" + " /Y");
-                    }
-                    else
-                    {
-                        if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory).ToString() + "\\Test\\" + pathFile.Split('\\').Last()))
-                        {
+                    lblShowInfo.Text = "Posting...";
+                    //System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.RedirectStandardInput = true;
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.UseShellExecute = false;
+                    startInfo.CreateNoWindow = true;
+                    process.StartInfo = startInfo;
+                    //startInfo.Arguments = "/C copy " + pathFile + " ";
+                    process.Start();
 
+                    foreach (string pathFile in rtxbFilePath.Lines)
+                    {
+                        //copy with/without Overwrite
+                        if (ckbOverwrite.Checked && !string.IsNullOrEmpty(destinationDirectory))
+                        {
+                            string renamedFile = pathFile.Replace(' ', '_').Split('\\').Last();
+                            process.StandardInput.WriteLine("COPY " + "\"" + pathFile + "\"" + " \"" + destinationDirectory + "\\" + renamedFile + "\" /Y");
+                        }
+                        else
+                        {
+                            if (File.Exists(destinationDirectory + "\\" + pathFile.Replace(' ', '_').Split('\\').Last()))
+                            {
+                                string renamedFile = pathFile.Insert(pathFile.LastIndexOf('.'), DateTime.Now.ToString(" HH-mm-ss dd-MM-yyyy")).Replace(' ', '_').Split('\\').Last();
+                                process.StandardInput.WriteLine("COPY " + "\"" + pathFile + "\"" + " \"" + destinationDirectory + "\\" + renamedFile + "\" /Y");
+                            }
+                            else
+                            {
+                                string renamedFile = pathFile.Replace(' ', '_').Split('\\').Last();
+                                process.StandardInput.WriteLine("COPY " + "\"" + pathFile + "\"" + " \"" + destinationDirectory + "\\" + renamedFile + "\" /Y");
+                            }
                         }
                     }
-                }
 
-                process.StandardInput.WriteLine("exit");
-                process.WaitForExit();
-                lblShowInfo.Text = "Posted";
+                    process.StandardInput.WriteLine("exit");
+                    process.WaitForExit();
+                    lblShowInfo.Text = "Posted";
+                }
             }
+            else
+                MessageBox.Show("Select save folder first please!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
