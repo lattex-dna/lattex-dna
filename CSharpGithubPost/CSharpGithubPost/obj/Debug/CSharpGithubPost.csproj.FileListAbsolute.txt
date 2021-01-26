@@ -7,4 +7,3 @@ D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPos
 D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.exe
 D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.pdb
 D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\bin\Debug\CSharpGithubPost.exe.config
-D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.csprojAssemblyReference.cache

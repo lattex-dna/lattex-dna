@@ -154,11 +154,10 @@ namespace CSharpGithubPost
             {
                 using (System.Diagnostics.Process process = new System.Diagnostics.Process())
                 {
-                    //System.Diagnostics.Process process = new System.Diagnostics.Process();
                     lblShowInfo.Text = "Posting...";
                     //System.Diagnostics.Process process = new System.Diagnostics.Process();
                     System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal; //Hidden
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden; //Hidden
                     startInfo.FileName = "cmd.exe";
                     startInfo.RedirectStandardInput = true;
                     startInfo.RedirectStandardOutput = true;
@@ -196,8 +195,8 @@ namespace CSharpGithubPost
                     process.StandardInput.WriteLine("git add *");
                     process.StandardInput.WriteLine("git commit -m \'" + note.Replace(' ', '_') + "\'");
                     process.StandardInput.WriteLine("git push");
-                    //process.StandardInput.WriteLine("exit");
-                    //process.WaitForExit();
+                    process.StandardInput.WriteLine("exit");
+                    process.WaitForExit();
                     lblShowInfo.Text = "Posted";
                 }
 
@@ -273,7 +272,7 @@ namespace CSharpGithubPost
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            string dateTimeNow = DateTime.Now.ToString("HH:mm:ss_dd-MM-yyyy");
+            string dateTimeNow = DateTime.Now.ToString("HH:mm:ss_yyyy-MM-dd-dddd");
             Copy(dateTimeNow.Insert(dateTimeNow.LastIndexOf(':'), "m").Insert(dateTimeNow.IndexOf(':'), "h").Replace(":", ""));
         }
 
