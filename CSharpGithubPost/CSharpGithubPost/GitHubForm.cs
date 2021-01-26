@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CSharpGithubPost
@@ -140,16 +142,23 @@ namespace CSharpGithubPost
             }
         }
 
-        private void btnPost_Click(object sender, EventArgs e)
+        public static void WriteLine(string s, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(s);
+        }
+
+        private string Copy(string note)
         {
             if (!string.IsNullOrEmpty(destinationDirectory))
             {
                 using (System.Diagnostics.Process process = new System.Diagnostics.Process())
                 {
+                    //System.Diagnostics.Process process = new System.Diagnostics.Process();
                     lblShowInfo.Text = "Posting...";
                     //System.Diagnostics.Process process = new System.Diagnostics.Process();
                     System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal; //Hidden
                     startInfo.FileName = "cmd.exe";
                     startInfo.RedirectStandardInput = true;
                     startInfo.RedirectStandardOutput = true;
@@ -182,13 +191,90 @@ namespace CSharpGithubPost
                         }
                     }
 
-                    process.StandardInput.WriteLine("exit");
-                    process.WaitForExit();
+                    process.StandardInput.WriteLine("cd " + destinationDirectory);
+                    process.StandardInput.WriteLine("git init");
+                    process.StandardInput.WriteLine("git add *");
+                    process.StandardInput.WriteLine("git commit -m \'" + note.Replace(' ', '_') + "\'");
+                    process.StandardInput.WriteLine("git push");
+                    //process.StandardInput.WriteLine("exit");
+                    //process.WaitForExit();
                     lblShowInfo.Text = "Posted";
                 }
+
+                return "All done!";
             }
             else
                 MessageBox.Show("Select save folder first please!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            return "Can not be done!";
+        }
+
+        #region---Async Task---
+        //private async Task<string> PostToGithub(string note)
+        //{
+        //    //Func<object, string> myfunc = (object thamso) =>
+        //    //{
+        //    //    // Đọc tham số (dùng kiểu động - xem kiểu động để biết chi tiết)
+        //    //    dynamic ts = thamso;
+        //    //    for (int i = 1; i <= 10; i++)
+        //    //    {
+        //    //        //  Thread.CurrentThread.ManagedThreadId  trả về ID của thread đạng chạy
+        //    //        WriteLine($"{i,5} {Thread.CurrentThread.ManagedThreadId, 3} Tham số {ts.x} {ts.y}",
+        //    //            ConsoleColor.Green);
+        //    //        Thread.Sleep(500);
+        //    //    }
+        //    //    return $"Kết thúc Async1! {ts.x}";
+        //    //};
+
+        //    Func<object, string> postFunc = (object obj) =>
+        //    {
+        //        dynamic ob = obj;
+
+        //        return "string";
+        //    };
+
+        //    Task<string> task = new Task<string>(postFunc, new { x = note });
+        //    task.Start();
+        //    await task;
+        //    string result = task.Result;
+        //    return result;
+
+        //}
+
+        //private async Task VoidReturn()
+        //{
+        //    Action myaction = () => {
+        //        for (int i = 1; i <= 10; i++)
+        //        {
+        //            WriteLine($"{i, 5} {Thread.CurrentThread.ManagedThreadId, 3}", ConsoleColor.Yellow);
+        //            Thread.Sleep(2000);
+        //        }
+        //    };
+        //    Task task = new Task(myaction);
+        //    task.Start();
+
+        //    await task;
+        //}
+
+        //private async Task Process()
+        //{
+        //    try
+        //    {
+        //        Task<string> t1 = PostToGithub("initial commit");
+        //        //Task t2 = VoidReturn();
+        //        await t1;
+        //        //await t2;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+        //    }
+        //}
+        #endregion---End Async Task---
+
+        private void btnPost_Click(object sender, EventArgs e)
+        {
+            string dateTimeNow = DateTime.Now.ToString("HH:mm:ss_dd-MM-yyyy");
+            Copy(dateTimeNow.Insert(dateTimeNow.LastIndexOf(':'), "m").Insert(dateTimeNow.IndexOf(':'), "h").Replace(":", ""));
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
