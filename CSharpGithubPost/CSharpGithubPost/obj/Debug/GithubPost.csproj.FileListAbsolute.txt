@@ -1,0 +1,9 @@
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\bin\Debug\CSharpGithubPost.exe.config
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\bin\Debug\CSharpGithubPost.exe
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\bin\Debug\CSharpGithubPost.pdb
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.GithubPostForm.resources
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.Properties.Resources.resources
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\GithubPost.csproj.GenerateResource.cache
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\GithubPost.csproj.CoreCompileInputs.cache
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.exe
+D:\Github\lattex-dna\CSharpGithubPost\CSharpGithubPost\obj\Debug\CSharpGithubPost.pdb

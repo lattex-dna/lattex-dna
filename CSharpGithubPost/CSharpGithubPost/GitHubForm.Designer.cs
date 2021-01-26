@@ -29,6 +29,7 @@ namespace CSharpGithubPost
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GithubPostForm));
             this.grpBoxFilePath = new System.Windows.Forms.GroupBox();
             this.rtxbFilePath = new System.Windows.Forms.RichTextBox();
             this.rtxbFileName = new System.Windows.Forms.RichTextBox();
@@ -181,6 +182,7 @@ namespace CSharpGithubPost
             this.Controls.Add(this.grpBoxClickButton);
             this.Controls.Add(this.grpBoxFilePath);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "GithubPostForm";
             this.Text = "Github Post";
