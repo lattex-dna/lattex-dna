@@ -5,7 +5,7 @@ public OracleDBAccessForm()
      // InitializeComponent();
 
      HttpClient client = new HttpClient();
-     client.BaseAddress = new Uri("http://mdnas.dyndnss.net/");
+     client.BaseAddress = new Uri("http://dna.dyndnss.net/");
       // Add an Accept header for JSON format.    
      client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
       // List all Names.    
